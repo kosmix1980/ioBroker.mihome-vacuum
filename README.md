@@ -352,6 +352,9 @@ The supported commands are:
 - (copilot) Adapter requires admin >= 7.7.22 now
 - (copilot) Adapter requires js-controller >= 6.0.11 now
 
+### 5.4.1 (2026-08-11)
+* (kosmix1980) fix Xiaomi captcha login with real cookie jar (ick) and token-extractor compatible auth request
+
 ### 5.4.0 (2026-08-11)
 * (kosmix1980) interactive Xiaomi cloud captcha login with persisted session for map updates
 * (kosmix1980) cookie jar so captcha retries keep the same cloud session

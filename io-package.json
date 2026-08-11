@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "mihome-vacuum",
-    "version": "5.4.0",
+    "version": "5.4.1",
     "news": {
+      "5.4.1": {
+        "en": "fix Xiaomi captcha login using a real cookie jar (ick) and query-param auth like the token extractor",
+        "de": "Xiaomi-Captcha-Login mit echter Cookie-Jar (ick) und Query-Param-Auth wie beim Token-Extractor repariert",
+        "ru": "исправлен Xiaomi captcha login с cookie jar (ick) и query-param auth",
+        "pt": "corrigido login captcha Xiaomi com cookie jar (ick) e auth por query params",
+        "nl": "Xiaomi captcha-login hersteld met echte cookie jar (ick) en query-param auth",
+        "fr": "correction du login captcha Xiaomi avec cookie jar (ick) et auth en query params",
+        "it": "corretto login captcha Xiaomi con cookie jar (ick) e auth query-param",
+        "es": "corregido login captcha Xiaomi con cookie jar (ick) y auth por query params",
+        "pl": "naprawiono logowanie captcha Xiaomi z cookie jar (ick) i auth query-param",
+        "uk": "виправлено Xiaomi captcha login з cookie jar (ick) і query-param auth",
+        "zh-cn": "使用真实 cookie jar (ick) 和与 token extractor 相同的查询参数认证修复小米验证码登录"
+      },
       "5.4.0": {
         "en": "interactive Xiaomi cloud captcha login with persisted session for map updates\nfix cookie jar so captcha retries keep the same session",
         "de": "interaktiver Xiaomi-Cloud-Captcha-Login mit persistierter Session für Karten-Updates\nCookie-Jar repariert, damit Captcha-Wiederholungen dieselbe Session behalten",
