@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "mihome-vacuum",
-    "version": "5.3.0",
+    "version": "5.3.1",
     "news": {
+      "5.3.1": {
+        "en": "apply room fan/mop/water settings reliably before each queued clean\ndo not permanently disable native segment multi-pass after a single error",
+        "de": "Raum-Einstellungen für Fan/Mop/Water vor jedem Queue-Job zuverlässig setzen\nnativen Multi-Pass nicht mehr nach einem einzelnen Fehler dauerhaft deaktivieren",
+        "ru": "надёжно применять настройки комнаты fan/mop/water перед каждой очисткой из очереди\nбольше не отключать навсегда нативный multi-pass после одной ошибки",
+        "pt": "aplicar definições de sala fan/mop/water de forma fiável antes de cada limpeza em fila\nnão desativar permanentemente o multi-pass nativo após um único erro",
+        "nl": "kamerinstellingen voor fan/mop/water betrouwbaar toepassen vóór elke wachtrij-taak\nnatieve multi-pass niet meer permanent uitschakelen na één fout",
+        "fr": "appliquer de façon fiable les paramètres pièce fan/mop/water avant chaque nettoyage en file\nne plus désactiver définitivement le multi-pass natif après une seule erreur",
+        "it": "applicare in modo affidabile le impostazioni stanza fan/mop/water prima di ogni pulizia in coda\nnon disabilitare più permanentemente il multi-pass nativo dopo un solo errore",
+        "es": "aplicar de forma fiable los ajustes de habitación fan/mop/water antes de cada limpieza en cola\nya no desactivar permanentemente el multi-pass nativo tras un solo error",
+        "pl": "niezawodnie stosuj ustawienia pomieszczenia fan/mop/water przed każdym zadaniem z kolejki\nnie wyłączaj trwale natywnego multi-pass po pojedynczym błędzie",
+        "uk": "надійно застосовувати налаштування кімнати fan/mop/water перед кожним завданням з черги\nбільше не вимикати назавжди нативний multi-pass після однієї помилки",
+        "zh-cn": "在每个队列清洁任务前可靠应用房间风扇/拖地/水量设置\n不再因单次错误永久禁用原生多遍清扫"
+      },
       "5.3.0": {
         "en": "update dependecies\nreplace request with axios\nfix login issues by replacing and moving code to XiaomiCloudConnector",
         "de": "aktualisierung der abhängigkeiten\nersetzen anfrage mit axios\nfix Login-Probleme durch Austausch und Verschieben von Code auf XiaomiCloudConnector",

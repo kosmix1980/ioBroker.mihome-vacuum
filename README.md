@@ -339,6 +339,10 @@ The supported commands are:
 - (copilot) Adapter requires admin >= 7.7.22 now
 - (copilot) Adapter requires js-controller >= 6.0.11 now
 
+### 5.3.1 (2026-08-11)
+* (kosmix1980) apply room fan/mop/water settings reliably before each queued clean
+* (kosmix1980) do not permanently disable native segment multi-pass after a single error
+
 ### 5.3.0 (2025-07-24)
 * (dirkhe) update dependecies
 * (dirkhe) replace request with axios
