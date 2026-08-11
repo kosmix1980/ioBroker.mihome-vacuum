@@ -276,12 +276,15 @@
                     showToast(_('no server selected'));
                     return
                 }
-                if (!authObj){
+                if (!authObj || authObj.username !== user){
                     authObj= {
                         password: pass,
                         username: user,
-                        captCode: true
+                        captCode: false
                     }
+                } else {
+                    authObj.password = pass;
+                    authObj.username = user;
                 }
                 if ($captcha.val()){
                     authObj.captCode= $captcha.val();
@@ -291,23 +294,45 @@
                     server: server
                 }, function (result) {
                     //console.log(JSON.stringify(result));
-                    if (result.err) {
+                    if (result && result.err) {
                         if (result.captchaUrl) {
                             $('#captchaImg').attr("src", result.captchaUrl).removeClass('seenot');
-                            $captcha.attr("value", '').parent().removeClass('seenot');
+                            $captcha.val('').parent().removeClass('seenot');
                             showToast(_('Please solve captcha'));
+                            // Keep session (_sign, cookies, deviceId, agent) for the captcha retry
                             authObj = result;
-                        } 
-                        showToast(_('ERROR: ' + result.err));
-                    } else {
+                            authObj.password = pass;
+                            authObj.username = user;
+                        } else {
+                            showToast(_('ERROR: ' + result.err));
+                        }
+                        if (result.notificationUrl) {
+                            showToast(_('2FA required – open URL from log'));
+                        }
+                    } else if (result) {
                         $('#captchaImg').addClass('seenot');
                         $captcha.parent().addClass('seenot');
+                        authObj = null;
                         setDevices(result);
+                        showToast(_('Cloud login OK – session saved for map'));
+                        $('#cloudSessionStatus').text(_('active'));
                     }
                     $getDevices.removeClass('disabled');
                     $('#loader1').addClass('seenot');                   
                 });
 
+            });
+
+            $('#clearCloudSession').on('click', function () {
+                sendTo(adapter + '.' + instance, 'clearCloudSession', {}, function () {
+                    authObj = null;
+                    $('#cloudSessionStatus').text(_('none'));
+                    showToast(_('Cloud session cleared'));
+                });
+            });
+
+            socket.emit('getState', namespace + 'deviceInfo.cloudSessionStatus', function (err, state) {
+                $('#cloudSessionStatus').text((state && state.val) ? state.val : 'none');
             });
 
             socket.emit('getState', 'system.adapter.' + adapter + '.' + instance + '.alive', function (err, state) {
@@ -701,6 +726,16 @@
                     </div>
                     <div class="col s12 m3 l2">
                         <a id="getDevices" class=" btn-small translate">get devices<span></span></a>
+                    </div>
+                    <div class="col s12 m3 l2">
+                        <a id="clearCloudSession" class=" btn-small grey translate">clear cloud session<span></span></a>
+                    </div>
+                    <div class="col s12">
+                        <span class="translate">Cloud session:</span>
+                        <strong id="cloudSessionStatus">none</strong>
+                        <div class="translate" style="opacity:0.8;font-size:0.9em;margin-top:4px;">
+                            If Xiaomi asks for captcha: click get devices, solve captcha, click again. Session is stored for map updates.
+                        </div>
                     </div>
                     <div class="col s12 ">
                         <div class="loader seenot" id="loader1"> </div>

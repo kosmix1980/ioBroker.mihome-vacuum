@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "mihome-vacuum",
-    "version": "5.3.1",
+    "version": "5.4.0",
     "news": {
+      "5.4.0": {
+        "en": "interactive Xiaomi cloud captcha login with persisted session for map updates\nfix cookie jar so captcha retries keep the same session",
+        "de": "interaktiver Xiaomi-Cloud-Captcha-Login mit persistierter Session für Karten-Updates\nCookie-Jar repariert, damit Captcha-Wiederholungen dieselbe Session behalten",
+        "ru": "интерактивный Xiaomi cloud captcha login с сохранением сессии для обновления карты\nисправлен cookie jar для повторных captcha-попыток",
+        "pt": "login interativo Xiaomi cloud captcha com sessão persistida para atualizações do mapa\ncorrigir cookie jar para retries de captcha",
+        "nl": "interactieve Xiaomi cloud captcha-login met opgeslagen sessie voor kaartupdates\ncookie jar gefixt zodat captcha-retries dezelfde sessie houden",
+        "fr": "connexion captcha cloud Xiaomi interactive avec session persistée pour la carte\ncorrection du cookie jar pour les nouvelles tentatives captcha",
+        "it": "login captcha cloud Xiaomi interattivo con sessione persistente per la mappa\nfix cookie jar per i retry captcha",
+        "es": "login captcha cloud Xiaomi interactivo con sesión persistida para el mapa\ncorregir cookie jar para reintentos de captcha",
+        "pl": "interaktywne logowanie Xiaomi cloud captcha z zapisaną sesją do mapy\nnaprawiono cookie jar dla ponownych prób captcha",
+        "uk": "інтерактивний Xiaomi cloud captcha login зі збереженою сесією для карти\nвиправлено cookie jar для повторів captcha",
+        "zh-cn": "交互式小米云验证码登录并持久化会话以更新地图\n修复 cookie jar 以便验证码重试保持同一会话"
+      },
       "5.3.1": {
         "en": "apply room fan/mop/water settings reliably before each queued clean\ndo not permanently disable native segment multi-pass after a single error",
         "de": "Raum-Einstellungen für Fan/Mop/Water vor jedem Queue-Job zuverlässig setzen\nnativen Multi-Pass nicht mehr nach einem einzelnen Fehler dauerhaft deaktivieren",

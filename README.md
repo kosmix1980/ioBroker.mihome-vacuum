@@ -122,6 +122,19 @@ If two robots are to be controlled via ioBroker, two instances must be created. 
 ## Map Config
 There are two ways to get the map. The first get the map from the cloud. Therefore, you have to log in and select the right robot from the list
 
+#### Xiaomi cloud captcha / map session
+Xiaomi may require a captcha for cloud login. Map updates need a cloud session independently of the local robot token.
+
+1. Enable **Map from Xiaomi cloud**
+2. Enter email, password and the correct server region
+3. Click **get devices**
+4. If a captcha image appears: enter the code and click **get devices** again
+5. On success the adapter stores an encrypted cloud session in `deviceInfo.cloudSession` (status in `deviceInfo.cloudSessionStatus`)
+6. Map updates then use this session without solving captcha on every adapter start
+7. Use **clear cloud session** if login stops working, then repeat steps 3–5
+
+Robot control via IP/token still works without a cloud session; only cloud map refresh needs it.
+
 Second way is the map from valetudo (only local connection). 
 Therefore, you have to root and install valetudo to your device. 
 You can use [Valetudo RE](https://github.com/rand256/valetudo) or normal [Valetudo](https://github.com/Hypfer/Valetudo).
@@ -338,6 +351,10 @@ The supported commands are:
 - (copilot) Adapter requires node.js >= 22 now
 - (copilot) Adapter requires admin >= 7.7.22 now
 - (copilot) Adapter requires js-controller >= 6.0.11 now
+
+### 5.4.0 (2026-08-11)
+* (kosmix1980) interactive Xiaomi cloud captcha login with persisted session for map updates
+* (kosmix1980) cookie jar so captcha retries keep the same cloud session
 
 ### 5.3.1 (2026-08-11)
 * (kosmix1980) apply room fan/mop/water settings reliably before each queued clean

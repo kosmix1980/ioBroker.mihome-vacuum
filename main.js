@@ -415,6 +415,29 @@ class MihomeVacuum extends utils.Adapter {
     }
 
     /**
+     * Persist Xiaomi cloud session (serviceToken/ssecurity) for map access.
+     *
+     * @param {object} session
+     */
+    async persistCloudSession(session) {
+        if (!session) {
+            return false;
+        }
+        let payload = JSON.stringify(session);
+        try {
+            if (typeof this.encrypt === 'function') {
+                payload = this.encrypt(payload);
+            }
+        } catch (encryptErr) {
+            this.log.debug(`Cloud session encrypt skipped: ${encryptErr.message}`);
+        }
+        await this.setStateAsync('deviceInfo.cloudSession', payload, true);
+        await this.setStateAsync('deviceInfo.cloudSessionStatus', 'active', true);
+        this.log.info('Xiaomi cloud session saved for map access');
+        return true;
+    }
+
+    /**
      * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
      * Using this method requires "common.message" property to be set to true in io-package.json
      *
@@ -439,26 +462,55 @@ class MihomeVacuum extends utils.Adapter {
         if (obj) {
             switch (obj.command) {
                 case 'discovery': {
-                    if (!XiaomiApi) {
-                        XiaomiApi = new XiaomiCloudConnector(this.log, obj.message.authObj);
+                    const authObj = (obj.message && obj.message.authObj) || {};
+                    // Keep one connector instance across captcha retries so the cookie jar stays valid
+                    if (
+                        !XiaomiApi ||
+                        (authObj.username && XiaomiApi.username && XiaomiApi.username !== authObj.username) ||
+                        authObj.reset
+                    ) {
+                        XiaomiApi = new XiaomiCloudConnector(this.log, authObj);
                     } else {
-                        XiaomiApi.init(obj.message.authObj);
+                        XiaomiApi.init(authObj);
                     }
-                    XiaomiApi.login()
-                        .then(result => {
-                            if (result.ok) {
-                                return XiaomiApi.getDevices(obj.message.server).then(data => {
-                                    this.log.debug(`discover__${JSON.stringify(data)}`);
-                                    respond(data);
-                                    return;
-                                });
+                    try {
+                        const result = await XiaomiApi.login();
+                        if (result && result.ok) {
+                            const session = result.session || XiaomiApi.exportSession();
+                            if (session) {
+                                await this.persistCloudSession(session);
+                                // Push live session into map helper if already running
+                                if (vacuum && vacuum.Map && vacuum.Map.cloudConnector) {
+                                    vacuum.Map.cloudConnector.importSession(session);
+                                    vacuum.mapReady.login = true;
+                                }
                             }
-                            respond(result);
-                        })
-                        .catch(result => {
-                            this.log.info(`discover ${result.err}`);
-                            respond(result);
-                        });
+                            const data = await XiaomiApi.getDevices(obj.message.server);
+                            this.log.debug(`discover__${JSON.stringify(data)}`);
+                            respond(data);
+                            return;
+                        }
+                        if (result && result.captchaUrl) {
+                            await this.setStateAsync('deviceInfo.cloudSessionStatus', 'captcha_required', true);
+                        }
+                        respond(result);
+                    } catch (result) {
+                        this.log.info(`discover ${(result && result.err) || result}`);
+                        respond(result);
+                    }
+                    return;
+                }
+                case 'clearCloudSession': {
+                    XiaomiApi = null;
+                    await this.setStateAsync('deviceInfo.cloudSession', '', true);
+                    await this.setStateAsync('deviceInfo.cloudSessionStatus', 'none', true);
+                    if (vacuum && vacuum.Map && vacuum.Map.cloudConnector) {
+                        vacuum.Map.cloudConnector.serviceToken = null;
+                        vacuum.Map.cloudConnector.ssecurity = null;
+                        vacuum.Map.cloudConnector.userId = null;
+                        vacuum.mapReady.login = false;
+                    }
+                    respond({ ok: true });
                     return;
                 }
                 // ======================================================================
