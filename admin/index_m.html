@@ -175,6 +175,7 @@
         var rooms = {}
         var active = false;
         var pendingCaptcha = false;
+        var pending2FA = false;
         var curToken;
         var authObj= null;
 
@@ -258,6 +259,7 @@
             $('#getDevices').on('click', function () {
                 let $getDevices = $('#getDevices');
                 let $captcha= $('#captcha');
+                let $twoFactor= $('#twoFactorCode');
 
                 if (!active) {
                     console.log("Not_active");
@@ -278,7 +280,7 @@
                 }
 
                 const captchaVal = ($captcha.val() || '').toString().trim();
-                // Captcha is case-sensitive – keep exact user input
+                const twoFactorVal = ($twoFactor.val() || '').toString().trim();
                 let payloadAuth = {
                     password: pass,
                     username: user
@@ -286,7 +288,16 @@
                 if (captchaVal) {
                     payloadAuth.captCode = captchaVal;
                 }
-                if (pendingCaptcha && !captchaVal) {
+                if (twoFactorVal) {
+                    payloadAuth.twoFactorCode = twoFactorVal;
+                }
+                if (pending2FA && !twoFactorVal) {
+                    $getDevices.removeClass('disabled');
+                    $('#loader1').addClass('seenot');
+                    showToast(_('Please enter the 2FA code from email/SMS'));
+                    return;
+                }
+                if (pendingCaptcha && !captchaVal && !pending2FA) {
                     $getDevices.removeClass('disabled');
                     $('#loader1').addClass('seenot');
                     showToast(_('Please enter captcha first'));
@@ -300,26 +311,41 @@
                     if (result && result.err) {
                         if (result.captchaUrl) {
                             pendingCaptcha = true;
+                            pending2FA = false;
+                            $('#twoFactorWrap').addClass('seenot');
                             $('#captchaImg').attr("src", result.captchaUrl).removeClass('seenot');
                             $captcha.val('').parent().removeClass('seenot');
-                            // refresh floating label
                             if (typeof M !== 'undefined' && M.updateTextFields) {
                                 M.updateTextFields();
                             }
                             showToast(_(result.err.indexOf('invalid') >= 0
                                 ? 'Invalid captcha – try the new image'
                                 : 'Please solve captcha (case-sensitive)'));
+                        } else if (result.pending2FA) {
+                            pending2FA = true;
+                            pendingCaptcha = false;
+                            $('#captchaImg').addClass('seenot');
+                            $captcha.parent().addClass('seenot');
+                            $('#twoFactorWrap').removeClass('seenot');
+                            $('#twoFactorHint').text(result.twoFactorHint
+                                ? (_('Code sent to') + ': ' + result.twoFactorHint)
+                                : _('Check email/SMS for the Xiaomi code'));
+                            $twoFactor.val('');
+                            if (typeof M !== 'undefined' && M.updateTextFields) {
+                                M.updateTextFields();
+                            }
+                            showToast(_('2FA code sent – enter it and click get devices again'));
                         } else {
                             pendingCaptcha = false;
                             showToast(_('ERROR: ' + result.err));
                         }
-                        if (result.notificationUrl) {
-                            showToast(_('2FA required – open URL from log'));
-                        }
                     } else if (result) {
                         pendingCaptcha = false;
+                        pending2FA = false;
                         $('#captchaImg').addClass('seenot');
                         $captcha.val('').parent().addClass('seenot');
+                        $('#twoFactorWrap').addClass('seenot');
+                        $twoFactor.val('');
                         setDevices(result);
                         showToast(_('Cloud login OK – session saved for map'));
                         $('#cloudSessionStatus').text(_('active'));
@@ -332,10 +358,13 @@
 
             $('#clearCloudSession').on('click', function () {
                 pendingCaptcha = false;
+                pending2FA = false;
                 sendTo(adapter + '.' + instance, 'clearCloudSession', {}, function () {
                     $('#cloudSessionStatus').text(_('none'));
                     $('#captchaImg').addClass('seenot');
                     $('#captcha').val('').parent().addClass('seenot');
+                    $('#twoFactorWrap').addClass('seenot');
+                    $('#twoFactorCode').val('');
                     showToast(_('Cloud session cleared'));
                 });
             });
@@ -733,6 +762,11 @@
                         <input id="captcha" size="3" type="text" />
                         <label class="translate" for="captcha">enter captcha</label>
                     </div>
+                    <div class="col s12 m4 l3 input-field seenot" id="twoFactorWrap">
+                        <input id="twoFactorCode" size="8" type="text" autocomplete="one-time-code" />
+                        <label class="translate" for="twoFactorCode">2FA code</label>
+                        <span id="twoFactorHint" style="display:block;font-size:0.85em;opacity:0.85;margin-top:4px;"></span>
+                    </div>
                     <div class="col s12 m3 l2">
                         <a id="getDevices" class=" btn-small translate">get devices<span></span></a>
                     </div>
@@ -743,7 +777,7 @@
                         <span class="translate">Cloud session:</span>
                         <strong id="cloudSessionStatus">none</strong>
                         <div class="translate" style="opacity:0.8;font-size:0.9em;margin-top:4px;">
-                            If Xiaomi asks for captcha: click get devices, solve captcha (case-sensitive), click get devices again without reloading the page. Session is stored for map updates.
+                            If Xiaomi asks for captcha/2FA: click get devices, solve captcha, then enter the email/SMS code and click get devices again without reloading the page. Session is stored for map updates.
                         </div>
                     </div>
                     <div class="col s12 ">

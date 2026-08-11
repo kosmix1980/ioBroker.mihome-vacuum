@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "mihome-vacuum",
-    "version": "5.4.1",
+    "version": "5.4.2",
     "news": {
+      "5.4.2": {
+        "en": "support Xiaomi cloud 2FA (email/SMS code) in adapter settings for map login",
+        "de": "Unterstützung für Xiaomi-Cloud-2FA (E-Mail/SMS-Code) in den Adapter-Einstellungen für den Map-Login",
+        "ru": "поддержка Xiaomi cloud 2FA (email/SMS код) в настройках адаптера для map login",
+        "pt": "suporte a Xiaomi cloud 2FA (código email/SMS) nas definições do adaptador para map login",
+        "nl": "ondersteuning voor Xiaomi cloud 2FA (e-mail/SMS-code) in adapterinstellingen voor map-login",
+        "fr": "prise en charge du 2FA cloud Xiaomi (code email/SMS) dans les paramètres pour le login carte",
+        "it": "supporto Xiaomi cloud 2FA (codice email/SMS) nelle impostazioni adapter per map login",
+        "es": "soporte Xiaomi cloud 2FA (código email/SMS) en ajustes del adaptador para login del mapa",
+        "pl": "obsługa Xiaomi cloud 2FA (kod email/SMS) w ustawieniach adaptera do logowania mapy",
+        "uk": "підтримка Xiaomi cloud 2FA (код email/SMS) в налаштуваннях адаптера для map login",
+        "zh-cn": "在适配器设置中支持小米云 2FA（邮件/短信验证码）以完成地图登录"
+      },
       "5.4.1": {
         "en": "fix Xiaomi captcha login using a real cookie jar (ick) and query-param auth like the token extractor",
         "de": "Xiaomi-Captcha-Login mit echter Cookie-Jar (ick) und Query-Param-Auth wie beim Token-Extractor repariert",

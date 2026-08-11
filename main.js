@@ -467,10 +467,16 @@ class MihomeVacuum extends utils.Adapter {
                         typeof authObj.captCode === 'string' && authObj.captCode && authObj.captCode !== 'true'
                             ? String(authObj.captCode).trim()
                             : '';
+                    const twoFactorCode =
+                        typeof authObj.twoFactorCode === 'string' ? String(authObj.twoFactorCode).trim() : '';
                     try {
                         let result;
-                        // Captcha retry: keep the same XiaomiApi instance (cookie jar / _sign / agent)
-                        if (XiaomiApi && XiaomiApi.pendingCaptcha && captchaCode) {
+                        // 2FA ticket retry on existing session
+                        if (XiaomiApi && XiaomiApi.pending2FA && twoFactorCode) {
+                            this.log.info('CloudApi: 2FA ticket retry on existing session');
+                            result = await XiaomiApi.continueWith2FA(twoFactorCode);
+                        } else if (XiaomiApi && XiaomiApi.pendingCaptcha && captchaCode) {
+                            // Captcha retry: keep the same XiaomiApi instance (cookie jar / _sign / agent)
                             this.log.info('CloudApi: captcha retry on existing session');
                             if (authObj.password) {
                                 XiaomiApi.password = authObj.password;
@@ -507,6 +513,8 @@ class MihomeVacuum extends utils.Adapter {
                         }
                         if (result && result.captchaUrl) {
                             await this.setStateAsync('deviceInfo.cloudSessionStatus', 'captcha_required', true);
+                        } else if (result && result.pending2FA) {
+                            await this.setStateAsync('deviceInfo.cloudSessionStatus', '2fa_required', true);
                         }
                         respond(result);
                     } catch (result) {
