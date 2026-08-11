@@ -108,6 +108,12 @@ class MihomeVacuum extends utils.Adapter {
                 if (!this.unsupportedFeatures.startsWith('|')) {
                     this.unsupportedFeatures = `|${this.unsupportedFeatures}`;
                 }
+                // segment repeat must be probed again; a single transient error used to lock it forever
+                if (this.unsupportedFeatures.indexOf('|segemntCleanRepeat|') >= 0) {
+                    this.unsupportedFeatures = this.unsupportedFeatures.replace('|segemntCleanRepeat|', '|');
+                    this.setStateAsync('deviceInfo.unsupported', this.unsupportedFeatures, true);
+                    this.log.info('cleared persisted segemntCleanRepeat flag; native multi-pass will be tried again');
+                }
             }
         });
     }
