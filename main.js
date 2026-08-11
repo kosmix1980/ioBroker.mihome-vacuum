@@ -463,23 +463,38 @@ class MihomeVacuum extends utils.Adapter {
             switch (obj.command) {
                 case 'discovery': {
                     const authObj = (obj.message && obj.message.authObj) || {};
-                    // Keep one connector instance across captcha retries so the cookie jar stays valid
-                    if (
-                        !XiaomiApi ||
-                        (authObj.username && XiaomiApi.username && XiaomiApi.username !== authObj.username) ||
-                        authObj.reset
-                    ) {
-                        XiaomiApi = new XiaomiCloudConnector(this.log, authObj);
-                    } else {
-                        XiaomiApi.init(authObj);
-                    }
+                    const captchaCode =
+                        typeof authObj.captCode === 'string' && authObj.captCode && authObj.captCode !== 'true'
+                            ? String(authObj.captCode).trim()
+                            : '';
                     try {
-                        const result = await XiaomiApi.login();
+                        let result;
+                        // Captcha retry: keep the same XiaomiApi instance (cookie jar / _sign / agent)
+                        if (XiaomiApi && XiaomiApi.pendingCaptcha && captchaCode) {
+                            this.log.info('CloudApi: captcha retry on existing session');
+                            if (authObj.password) {
+                                XiaomiApi.password = authObj.password;
+                            }
+                            result = await XiaomiApi.continueWithCaptcha(captchaCode);
+                        } else {
+                            if (
+                                !XiaomiApi ||
+                                (authObj.username && XiaomiApi.username && XiaomiApi.username !== authObj.username) ||
+                                authObj.reset
+                            ) {
+                                XiaomiApi = new XiaomiCloudConnector(this.log, authObj);
+                            } else {
+                                // Do not wipe cookie jar on normal re-init
+                                const { cookies, ...rest } = authObj;
+                                XiaomiApi.init(rest);
+                            }
+                            result = await XiaomiApi.login();
+                        }
+
                         if (result && result.ok) {
                             const session = result.session || XiaomiApi.exportSession();
                             if (session) {
                                 await this.persistCloudSession(session);
-                                // Push live session into map helper if already running
                                 if (vacuum && vacuum.Map && vacuum.Map.cloudConnector) {
                                     vacuum.Map.cloudConnector.importSession(session);
                                     vacuum.mapReady.login = true;

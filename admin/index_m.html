@@ -268,7 +268,6 @@
                 let pass = $('#password').val();
                 let user = $('#email').val();
                 let server = $('#server').val();
-                //console.log("send to..." + user + " server: " + server);
 
                 if (typeof (server) == 'undefinded' || server == '') {
                     $getDevices.removeClass('disabled');
@@ -276,43 +275,50 @@
                     showToast(_('no server selected'));
                     return
                 }
-                if (!authObj || authObj.username !== user){
-                    authObj= {
-                        password: pass,
-                        username: user,
-                        captCode: false
-                    }
-                } else {
-                    authObj.password = pass;
-                    authObj.username = user;
+
+                const captchaVal = ($captcha.val() || '').toString().trim();
+                // Captcha is case-sensitive – keep exact user input
+                let payloadAuth = {
+                    password: pass,
+                    username: user
+                };
+                if (captchaVal) {
+                    payloadAuth.captCode = captchaVal;
                 }
-                if ($captcha.val()){
-                    authObj.captCode= $captcha.val();
+                if (pendingCaptcha && !captchaVal) {
+                    $getDevices.removeClass('disabled');
+                    $('#loader1').addClass('seenot');
+                    showToast(_('Please enter captcha first'));
+                    return;
                 }
+
                 sendTo(adapter + "." + instance, 'discovery', {
-                    authObj: authObj,
+                    authObj: payloadAuth,
                     server: server
                 }, function (result) {
-                    //console.log(JSON.stringify(result));
                     if (result && result.err) {
                         if (result.captchaUrl) {
+                            pendingCaptcha = true;
                             $('#captchaImg').attr("src", result.captchaUrl).removeClass('seenot');
                             $captcha.val('').parent().removeClass('seenot');
-                            showToast(_('Please solve captcha'));
-                            // Keep session (_sign, cookies, deviceId, agent) for the captcha retry
-                            authObj = result;
-                            authObj.password = pass;
-                            authObj.username = user;
+                            // refresh floating label
+                            if (typeof M !== 'undefined' && M.updateTextFields) {
+                                M.updateTextFields();
+                            }
+                            showToast(_(result.err.indexOf('invalid') >= 0
+                                ? 'Invalid captcha – try the new image'
+                                : 'Please solve captcha (case-sensitive)'));
                         } else {
+                            pendingCaptcha = false;
                             showToast(_('ERROR: ' + result.err));
                         }
                         if (result.notificationUrl) {
                             showToast(_('2FA required – open URL from log'));
                         }
                     } else if (result) {
+                        pendingCaptcha = false;
                         $('#captchaImg').addClass('seenot');
-                        $captcha.parent().addClass('seenot');
-                        authObj = null;
+                        $captcha.val('').parent().addClass('seenot');
                         setDevices(result);
                         showToast(_('Cloud login OK – session saved for map'));
                         $('#cloudSessionStatus').text(_('active'));
@@ -324,9 +330,11 @@
             });
 
             $('#clearCloudSession').on('click', function () {
+                pendingCaptcha = false;
                 sendTo(adapter + '.' + instance, 'clearCloudSession', {}, function () {
-                    authObj = null;
                     $('#cloudSessionStatus').text(_('none'));
+                    $('#captchaImg').addClass('seenot');
+                    $('#captcha').val('').parent().addClass('seenot');
                     showToast(_('Cloud session cleared'));
                 });
             });
@@ -734,7 +742,7 @@
                         <span class="translate">Cloud session:</span>
                         <strong id="cloudSessionStatus">none</strong>
                         <div class="translate" style="opacity:0.8;font-size:0.9em;margin-top:4px;">
-                            If Xiaomi asks for captcha: click get devices, solve captcha, click again. Session is stored for map updates.
+                            If Xiaomi asks for captcha: click get devices, solve captcha (case-sensitive), click get devices again without reloading the page. Session is stored for map updates.
                         </div>
                     </div>
                     <div class="col s12 ">
