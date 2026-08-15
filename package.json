@@ -6,9 +6,9 @@
     "ioBroker",
     "mihome-vacuum"
   ],
-  "homepage": "https://github.com/iobroker-community-adapters/ioBroker.mihome-vacuum",
+  "homepage": "https://github.com/kosmix1980/ioBroker.mihome-vacuum-ts",
   "bugs": {
-    "url": "https://github.com/iobroker-community-adapters/ioBroker.mihome-vacuum/issues"
+    "url": "https://github.com/kosmix1980/ioBroker.mihome-vacuum-ts/issues"
   },
   "license": "MIT",
   "author": "bluefox <dogafox@gmail.com>",
@@ -18,7 +18,7 @@
   "main": "build/main.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/iobroker-community-adapters/ioBroker.mihome-vacuum"
+    "url": "https://github.com/kosmix1980/ioBroker.mihome-vacuum-ts"
   },
   "scripts": {
     "prebuild": "rimraf build",

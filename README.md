@@ -7,11 +7,13 @@
 ![Number of Installations](http://iobroker.live/badges/mihome-vacuum-stable.svg)
 [![NPM version](http://img.shields.io/npm/v/iobroker.mihome-vacuum.svg)](https://www.npmjs.com/package/iobroker.mihome-vacuum)
 
-![Test and Release](https://github.com/iobroker-community-adapters/iobroker.mihome-vacuum/workflows/Test%20and%20Release/badge.svg)
+![Test and Release](https://github.com/kosmix1980/ioBroker.mihome-vacuum-ts/workflows/Test%20and%20Release/badge.svg)
 [![Translation status](https://weblate.iobroker.net/widgets/adapters/-/mihome-vacuum/svg-badge.svg)](https://weblate.iobroker.net/engage/adapters/?utm_source=widget)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.mihome-vacuum.svg)](https://www.npmjs.com/package/iobroker.mihome-vacuum)
 
 [Deutsche beschreibung hier](README_de.md)
+
+**TypeScript variant:** This repository is a TypeScript port of the community adapter [`iobroker-community-adapters/ioBroker.mihome-vacuum`](https://github.com/iobroker-community-adapters/ioBroker.mihome-vacuum). The npm/adapter name stays `iobroker.mihome-vacuum` / `mihome-vacuum` so existing installations remain in-place upgradeable. Runtime entry is `build/main.js`.
 
 This adapter allows you to control the Xiaomi vacuum cleaner.
 

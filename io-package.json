@@ -211,14 +211,14 @@
     "loglevel": "info",
     "compact": true,
     "icon": "mihome-vacuum.png",
-    "readme": "https://github.com/iobroker-community-adapters/ioBroker.mihome-vacuum/blob/master/README.md",
+    "readme": "https://github.com/kosmix1980/ioBroker.mihome-vacuum-ts/blob/master/README.md",
     "keywords": [
       "url",
       "html",
       "file",
       "mihome-vacuum"
     ],
-    "extIcon": "https://raw.githubusercontent.com/iobroker-community-adapters/ioBroker.mihome-vacuum/master/admin/mihome-vacuum.png",
+    "extIcon": "https://raw.githubusercontent.com/kosmix1980/ioBroker.mihome-vacuum-ts/master/admin/mihome-vacuum.png",
     "type": "household",
     "messagebox": true,
     "connectionType": "local",
