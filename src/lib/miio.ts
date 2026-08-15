@@ -1,7 +1,9 @@
-'use strict';
-const crypto = require('node:crypto');
-const dgram = require('node:dgram');
-const EventEmitter = require('node:events');
+// @ts-nocheck
+
+import crypto = require('node:crypto');
+import dgram = require('node:dgram');
+import EventEmitter = require('node:events');
+
 
 const pingMsg = _str2hex('21310020ffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
 let adapter = null;
@@ -472,4 +474,4 @@ function _str2hex(str) {
 }
 
 //exports.decimalToHex = decimalToHex;
-module.exports = Miio;
+export = Miio;

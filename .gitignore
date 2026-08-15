@@ -11,3 +11,9 @@ admin/i18n/*/flat.txt
 
 #ignore .commitinfo created by ioBroker release script
 .commitinfo
+
+# NYC coverage files
+coverage
+
+# TypeScript build output is committed for npm installs without a build step
+# (standard for many community adapters); local rebuild via `npm run build`

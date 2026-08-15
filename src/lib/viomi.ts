@@ -1,9 +1,11 @@
-'use strict';
+// @ts-nocheck
+
+import objects = require('./objects');
+
 
 //const Miio = require("iobroker.mihome-vacuum/lib/miio");
 
 let adapter = null;
-const objects = require('./objects');
 const lastProps = {};
 
 class ViomiManager {
@@ -322,4 +324,4 @@ class ViomiManager {
         this.globalTimeouts = {};
     }
 }
-module.exports = ViomiManager;
+export = ViomiManager;

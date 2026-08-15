@@ -1,6 +1,9 @@
-const { createCanvas, Canvas } = require('canvas');
+// @ts-nocheck
 
-const { Image } = require('canvas');
+import { createCanvas, Canvas } from 'canvas';
+import { Image } from 'canvas';
+
+
 
 // Farben ändern
 const colors = {
@@ -376,4 +379,4 @@ MapCreator.CanvasMap = (Mapdata, options, adapter) => {
     return canvas_final; //.toDataURL();
 };
 
-module.exports = MapCreator;
+export = MapCreator;

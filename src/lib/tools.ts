@@ -1,4 +1,7 @@
-const axios = require('axios').default;
+// @ts-nocheck
+
+import axios from 'axios';
+
 
 /**
  * Tests whether the given variable is a real object and not an Array
@@ -96,7 +99,7 @@ async function translateGoogle(text, targetLang) {
     }
 }
 
-module.exports = {
+export = {
     isArray,
     isObject,
     translateText,

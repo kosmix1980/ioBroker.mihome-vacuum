@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "mihome-vacuum",
-    "version": "5.4.2",
+    "version": "5.5.0",
     "news": {
+      "5.5.0": {
+        "en": "migrate adapter from JavaScript to TypeScript (build/ entry); preserve queue room settings, native segment repeat and Xiaomi cloud session/captcha/2FA behavior",
+        "de": "Adapter von JavaScript nach TypeScript migriert (build/-Einstieg); Queue-Raum-Einstellungen, natives Segment-Repeat und Xiaomi-Cloud-Session/Captcha/2FA-Verhalten beibehalten",
+        "ru": "миграция адаптера с JavaScript на TypeScript (entry build/); сохранено поведение очереди, native segment repeat и Xiaomi cloud session/captcha/2FA",
+        "pt": "migrar adaptador de JavaScript para TypeScript (entrada build/); preservar definições de sala na fila, segment repeat nativo e sessão/captcha/2FA Xiaomi cloud",
+        "nl": "adapter gemigreerd van JavaScript naar TypeScript (build/ entry); queue-kamerinstellingen, native segment repeat en Xiaomi cloud session/captcha/2FA behouden",
+        "fr": "migration de l'adaptateur de JavaScript vers TypeScript (entrée build/); conservation des réglages de pièces en file, du segment repeat natif et de la session/captcha/2FA cloud Xiaomi",
+        "it": "migrazione adapter da JavaScript a TypeScript (entry build/); preservati impostazioni stanze in coda, segment repeat nativo e sessione/captcha/2FA Xiaomi cloud",
+        "es": "migrar adaptador de JavaScript a TypeScript (entrada build/); conservar ajustes de habitación en cola, segment repeat nativo y sesión/captcha/2FA de Xiaomi cloud",
+        "pl": "migracja adaptera z JavaScript do TypeScript (wejście build/); zachowano ustawienia pokoi w kolejce, natywny segment repeat oraz sesję/captcha/2FA Xiaomi cloud",
+        "uk": "міграція адаптера з JavaScript на TypeScript (entry build/); збережено поведінку черги, native segment repeat і Xiaomi cloud session/captcha/2FA",
+        "zh-cn": "将适配器从 JavaScript 迁移到 TypeScript（build/ 入口）；保留队列房间设置、原生分段重复以及小米云会话/验证码/2FA 行为"
+      },
       "5.4.2": {
         "en": "support Xiaomi cloud 2FA (email/SMS code) in adapter settings for map login",
         "de": "Unterstützung für Xiaomi-Cloud-2FA (E-Mail/SMS-Code) in den Adapter-Einstellungen für den Map-Login",

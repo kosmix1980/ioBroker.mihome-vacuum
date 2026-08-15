@@ -1,8 +1,10 @@
-'use strict';
+// @ts-nocheck
+
+import objects = require('./objects');
+
 
 let adapter = null;
 
-const objects = require('./objects');
 
 const DreameWaterVolumes = {
     UNKNOWN: -1,
@@ -871,4 +873,4 @@ class DreameManager {
         this.globalTimeouts = {};
     }
 }
-module.exports = DreameManager;
+export = DreameManager;

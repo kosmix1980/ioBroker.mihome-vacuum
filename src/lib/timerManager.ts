@@ -1,4 +1,5 @@
-'use strict';
+// @ts-nocheck
+
 let adapter = null;
 let timerManager = null;
 let i18n = null;
@@ -186,4 +187,4 @@ TimerManager.SKIP = 0;
 TimerManager.ENABLED = 1;
 TimerManager.START = 2;
 
-module.exports = TimerManager;
+export = TimerManager;

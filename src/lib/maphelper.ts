@@ -1,10 +1,13 @@
-const axios = require('axios');
+// @ts-nocheck
+
+import axios = require('axios');
+import zlib = require('node:zlib');
+import RRMapParser = require('./RRMapParser');
+import XiaomiCloudConnector = require('./XiaomiCloudConnector');
+
 //const zlib = require('node:zlib');
-const zlib = require('node:zlib');
-const RRMapParser = require('./RRMapParser');
 //const mapCreator = require('./mapCreator');
 // libs for Cloudmap
-const XiaomiCloudConnector = require('./XiaomiCloudConnector');
 
 //load if map is selected
 let mapCreator = {
@@ -339,4 +342,4 @@ const adapter_helper = {
         warn: [],
     },
 };
-module.exports = MapHelper;
+export = MapHelper;

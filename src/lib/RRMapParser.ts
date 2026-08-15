@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 //const { off } = require('node:process');
 const Tools = {
     DIMENSION_PIXELS: 1024,
@@ -367,4 +369,4 @@ RRMapParser.PARSEDATA = function parseData(mapBuf) {
     return parsedMapData;
 };
 
-module.exports = RRMapParser;
+export = RRMapParser;

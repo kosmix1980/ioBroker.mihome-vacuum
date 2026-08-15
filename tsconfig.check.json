@@ -1,15 +1,13 @@
-// Specialized tsconfig for type-checking js files
+// Specialized tsconfig for type-checking
 {
 	"extends": "./tsconfig.json",
 	"compilerOptions": {},
 	"include": [
-		"**/*.js",
-		"**/*.d.ts"
+		"src/**/*.ts"
 	],
 	"exclude": [
 		"**/build",
 		"node_modules/",
-		"widgets/",
-		"gulpfile.js"
+		"widgets/"
 	]
 }

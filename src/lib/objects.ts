@@ -1,4 +1,6 @@
-module.exports = {
+// @ts-nocheck
+
+export = {
     deviceInfo: [
         {
             _id: '',

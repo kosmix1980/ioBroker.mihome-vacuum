@@ -1,4 +1,6 @@
-module.exports = {
+// @ts-nocheck
+
+export = {
     find: {
         method: 'find_me',
     },

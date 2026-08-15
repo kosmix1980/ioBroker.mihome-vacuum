@@ -1,4 +1,13 @@
-'use strict';
+// @ts-nocheck
+
+import utils = require('@iobroker/adapter-core');
+import XiaomiCloudConnector = require('./lib/XiaomiCloudConnector');
+import miio = require('./lib/miio');
+import objects = require('./lib/objects');
+import ViomiManager = require('./lib/viomi');
+import VacuumManager = require('./lib/vacuum');
+import DreameManager = require('./lib/dreame');
+
 
 /*
  * Created with @iobroker/create-adapter v1.27.0
@@ -6,14 +15,7 @@
 
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
-const utils = require('@iobroker/adapter-core');
-const XiaomiCloudConnector = require('./lib/XiaomiCloudConnector');
-const miio = require('./lib/miio');
-const objects = require('./lib/objects');
 
-const ViomiManager = require('./lib/viomi');
-const VacuumManager = require('./lib/vacuum');
-const DreameManager = require('./lib/dreame');
 //const VacuumManager2 = require('./lib/vacuumsaphire');
 
 // @ts-expect-ignore
@@ -553,11 +555,10 @@ class MihomeVacuum extends utils.Adapter {
     }
 }
 
-// @ts-expect-error parent is a valid property on module
-if (module.parent) {
+if (require.main !== module) {
     // Export the constructor in compact mode
-    module.exports = options => new MihomeVacuum(options);
+    module.exports = (options?: Partial<utils.AdapterOptions>) => new MihomeVacuum(options);
 } else {
     // otherwise start the instance directly
-    new MihomeVacuum();
+    (() => new MihomeVacuum())();
 }

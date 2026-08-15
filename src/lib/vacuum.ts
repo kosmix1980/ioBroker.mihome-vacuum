@@ -1,18 +1,19 @@
-/* eslint-disable no-prototype-builtins */
-'use strict';
+// @ts-nocheck
+
+import objects = require('./objects');
+import TimerManager = require('./timerManager');
+import RoomManager = require('./roomManager');
+import MapHelper = require('./maphelper');
+import commands = require('./stockCommands');
+
 // const utils = require('@iobroker/adapter-core');
 // const {hostname} = require('node:os');
 let adapter = null;
 // const miio = null;
-const objects = require('./objects');
-const TimerManager = require('./timerManager.js');
-const RoomManager = require('./roomManager');
-const MapHelper = require('./maphelper');
-const commands = require('./stockCommands');
 
-global.systemDictionary = {};
-// @ts-expect-error is not a module
-require('../admin/words.js');
+(global as any).systemDictionary = {};
+// words.js populates global.systemDictionary (path relative to build/lib/)
+require('../../admin/words.js');
 
 // const lastProps = {};
 
@@ -2057,4 +2058,4 @@ class FeatureManager {
     }
 }
 
-module.exports = VacuumManager;
+export = VacuumManager;

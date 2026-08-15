@@ -352,6 +352,10 @@ The supported commands are:
 - (copilot) Adapter requires admin >= 7.7.22 now
 - (copilot) Adapter requires js-controller >= 6.0.11 now
 
+### 5.5.0 (2026-08-15)
+* (kosmix1980) migrate adapter from JavaScript to TypeScript (`main` → `build/main.js`)
+* (kosmix1980) preserve queue room fan/mop/water apply-before-clean, native segment repeat fallback, and Xiaomi cloud captcha/cookie-jar/2FA/`cloudSession` behavior
+
 ### 5.4.2 (2026-08-11)
 * (kosmix1980) support Xiaomi cloud 2FA (email/SMS code) in adapter settings for map login
 

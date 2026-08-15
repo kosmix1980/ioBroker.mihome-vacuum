@@ -1,8 +1,11 @@
-const axios = require('axios');
-const crypto = require('node:crypto');
-const qs = require('qs');
-const { CookieJar } = require('tough-cookie');
-const { wrapper } = require('axios-cookiejar-support');
+// @ts-nocheck
+
+import axios = require('axios');
+import crypto = require('node:crypto');
+import qs = require('qs');
+import { CookieJar } from 'tough-cookie';
+import { wrapper } from 'axios-cookiejar-support';
+
 
 /**
  * Xiaomi cloud connector with real cookie jar (like Python requests.Session),
@@ -893,4 +896,4 @@ class XiaomiRC4Cipher {
     }
 }
 
-module.exports = XiaomiCloudConnector;
+export = XiaomiCloudConnector;

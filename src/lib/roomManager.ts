@@ -1,4 +1,5 @@
-'use strict';
+// @ts-nocheck
+
 let adapter = null;
 let roomManager = null;
 let i18n = null;
@@ -359,4 +360,4 @@ class RoomManager {
     }
 }
 
-module.exports = RoomManager;
+export = RoomManager;
